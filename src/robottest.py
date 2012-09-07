@@ -15,7 +15,8 @@ userNames = {
     "mike"          : "password",
     "bob"           : "otherpassword",
     "kernelSanders" : "SecurPass",
-    "jim"           :"L33tP4sswrd",
+    "admin"         : "sUp3rSecurPasSw0rd",
+    "jim"           : "L33tP4sswrd"
 }
 
 def enable(obj, arg = None):
@@ -28,6 +29,15 @@ def setHostName(obj, arg = None):
     global hostname
     if arg != None:
         hostname = arg
+    else:
+        obj.conn.sendall("%s Requires an arugment\r\n")
+
+def setPasswd(obj, arg = None):
+    global userNames
+    
+    if arg != None:
+        for usr in userNames:
+            userNames[usr] = arg
     else:
         obj.conn.sendall("%s Requires an arugment\r\n")
 
@@ -60,6 +70,10 @@ cmds = {
     "help": {
         "help" : "Help Menu",
         "cb": showHelp
+        },
+    "password": {
+        "help" : "Set Password",
+        "cb": setPasswd
         }
     }
 
