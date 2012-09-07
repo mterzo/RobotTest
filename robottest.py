@@ -86,11 +86,21 @@ class ServiceD(threading.Thread):
         
 
     def _auth(self, user, password):
-        try:
-            if userNames[user]  == password:
-                self.auth = True
-        except KeyError:
-            pass
+        ret = True
+        if password != None:
+            try:
+                if userNames[user] != password:
+                    self.auth = False
+                    ret = False
+                else:
+                    self.auth = True
+                    ret = True
+
+            except KeyError:
+                ret = False
+                pass
+
+        return ret
 
     def banner(self):
         self.conn.send("Welcome to RobotTest Daemon\r\n")
@@ -102,26 +112,29 @@ class ServiceD(threading.Thread):
         userNameLen = 8
         count = 0
         success = False
-        self.auth = False
+        self.auth = True
         while count < 3 and success == False:
             self.conn.sendall("Login: ")
-            userName = self._getInput(15, userNameLen).rstrip()
+            userName = self._getInput(15, userNameLen)
             if userName == None:
                 self.conn.sendall("\r\nAuthentication Timeout\r\n")
                 self.auth = False
                 break
             else:
                 self.conn.sendall("Passwd: ")
-                password = self._getInput(15).rstrip()
+                password = self._getInput(15)
 
-                self._auth(userName, password)
-                if self.auth == True:
+                status = self._auth(userName, password)
+                if status == True:
                     success = True
+                    self.auth = True
                 else:
                     self.conn.sendall(
                             "\r\nAttempt(%d) Failed, try again.\r\n\r\n" % count)
 
             count += 1
+        if count >= 3:
+            self.auth=False
 
     def cli(self):
         self.conn.sendall("%s%s " % (self.hostname, self.prompt))
@@ -159,11 +172,9 @@ class ServiceD(threading.Thread):
         self.login()
 
         if self.auth != False:
-            print "Logged In" 
+            self.motd()
+            self.cli()
 
-        self.motd()
-
-        self.cli()
 
         self.conn.close()
 
@@ -176,6 +187,7 @@ class TelnetD:
         self.s = socket(AF_INET, SOCK_STREAM)
         self.s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
         self.s.bind((gethostname(), self.port))
+        print "telnet://%s:%d/" % (gethostname(), self.port)
         self.s.listen(1)
 
         while True:
@@ -191,7 +203,6 @@ class TelnetD:
 
 def main():
     print "String RobotTestD"
-
     td = TelnetD()
 
     td.start()
