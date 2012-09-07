@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import sys
 from socket import *
 import threading
 from time import sleep
@@ -186,8 +187,8 @@ class TelnetD:
     def start(self):
         self.s = socket(AF_INET, SOCK_STREAM)
         self.s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-        self.s.bind((gethostname(), self.port))
-        print "telnet://%s:%d/" % (gethostname(), self.port)
+        self.s.bind(("localhost", self.port))
+        print "telnet://%s:%d/" % ("localhost", self.port)
         self.s.listen(1)
 
         while True:
@@ -195,6 +196,10 @@ class TelnetD:
                     conn, addr = self.s.accept()
                     d = ServiceD( conn, addr )
                     d.start()
+                except KeyboardInterrupt, e:
+                    print "Keyboard Iteruprted exiting"
+                    self.s.close()
+                    sys.exit(0)
                 except Exception, e:
                     print "Got an Exception %s" % e
 
