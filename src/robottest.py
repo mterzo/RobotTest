@@ -107,7 +107,7 @@ class ServiceD(threading.Thread):
         self.conn.send("Welcome to RobotTest Daemon\r\n")
 
     def motd(self):
-        self.conn.send("Today is Good\r\n")
+        self.conn.send("\r\n\r\nToday is Good\r\n")
             
     def login(self):
         userNameLen = 8

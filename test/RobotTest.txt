@@ -1,0 +1,12 @@
+*** Settings ***
+Library           Telnet
+
+*** Variables ***
+${HOST}           localhost
+${PORT}           2059
+
+*** Test Cases ***
+SuccessfulLogin
+    Open Connection    ${HOST}    test    ${PORT}
+    ${banner}=    Login    mike    password    Login:    Passwd:
+    Should Contain    ${banner}    Today is Good
