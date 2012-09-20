@@ -1,8 +1,9 @@
 RobotTest
 =========
-Very Broken! 
-VERY BROKEN!
-Oh, and did I mention very broken.
+This is some sample code to test candidates on their ability to look at code, 
+devise a test plan, and create tests. The daemon should start up correctly and 
+the provided example test should pass, but otherwise we make no promises. This 
+code is full of bugs.
 
 What is this:
 =============
@@ -21,7 +22,7 @@ Download
 
 Usage:
 =============
-Simply run:
+To start the daemon
 
 > python src/robottest.py
 
