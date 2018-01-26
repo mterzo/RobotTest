@@ -1,20 +1,20 @@
 RobotTest
 =========
-This is some sample code to test candidates on their ability to look at code, 
-devise a test plan, and create tests. The daemon should start up correctly and 
-the provided example test should pass, but otherwise we make no promises. This 
+This is some sample code to test candidates on their ability to look at code,
+devise a test plan, and create tests. The daemon should start up correctly and
+the provided example test should pass, but otherwise we make no promises. This
 code is full of bugs.
 
 What is this:
 =============
-This is some sample code to test canidates on their ability to look at code
-and devise a test plan and create tests.  
+This is some sample code to test candidates on their ability to look at code
+and devise a test plan and create tests.
 
 Installation:
 =============
 Requires Python.  I've tested with python 2.7.3, on windows and linux.  I've also tested python 2.4.  To use Robot you will need python 2.7.3
 
-Download 
+Download
    - Python: http://python.org/download/
    - RobotFramework: https://code.google.com/p/robotframework/
    - (optional) Ride: https://github.com/robotframework/RIDE/downloads
@@ -28,9 +28,9 @@ To start the daemon
 
 Basic Spec:
 ===========
-So this Dameon is to open up a port 2059 and listen to incomming connection. 
+So this Dameon is to open up a port 2059 and listen to incomming connection.
 At which point it has a basic telnet style user/pass prompt.  You are allowed 3
-attempts to enter correct user/name password.  Usernames and password are case 
+attempts to enter correct user/name password.  Usernames and password are case
 sensitive.  At which point there are some basic commands available.
 
 And that's all you get.  This is white box testing so have a look at the code
