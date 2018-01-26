@@ -45,16 +45,16 @@ def setHostName(obj, arg = None):
     if arg != None:
         hostname = arg
     else:
-        obj.conn.sendall("%s Requires an arugment\r\n")
+        obj.conn.sendall("%s Requires an argument\r\n")
 
 def setPasswd(obj, arg = None):
     global userNames
-    
+
     if arg != None:
         for usr in userNames:
             userNames[usr] = arg
     else:
-        obj.conn.sendall("%s Requires an arugment\r\n")
+        obj.conn.sendall("%s Requires an argument\r\n")
 
 def exitConnection(obj, arg = None):
     obj.conn.close()
@@ -66,7 +66,7 @@ def showHelp(obj, arg = None):
         obj.conn.sendall("\t%s: %s\r\n" % (key, cmds[key]["help"]))
 
 cmds = {
-   "enable": { 
+   "enable": {
         "help": "Enable Mode",
         "cb": enable
         },
@@ -75,7 +75,7 @@ cmds = {
         "cb": printDate
         },
     "exit": {
-        "help": "Close Connection", 
+        "help": "Close Connection",
         "cb": exitConnection
         },
     "hostname": {
@@ -101,7 +101,7 @@ class ServiceD(threading.Thread):
 
         self.conn = conn
         self.addr = addr
-        
+
         self.prompt = ">"
         self.exit = False
         self.hostname = hostname
@@ -113,7 +113,7 @@ class ServiceD(threading.Thread):
             return None
         else:
             return self.conn.recv(size).rstrip().lower()
-        
+
 
     def _auth(self, user, password):
         ret = True
@@ -137,7 +137,7 @@ class ServiceD(threading.Thread):
 
     def motd(self):
         self.conn.send("\r\n\r\nToday is Good\r\n")
-            
+
     def login(self):
         userNameLen = 8
         count = 0
@@ -168,16 +168,16 @@ class ServiceD(threading.Thread):
 
     def cli(self):
         self.conn.sendall("%s%s " % (self.hostname, self.prompt))
-        cmd = self._getInput() 
+        cmd = self._getInput()
         while cmd != None and self.exit == False:
-            self.cmd(cmd) 
+            self.cmd(cmd)
 
             if self.exit != True:
                 self.conn.sendall("%s%s " % (self.hostname, self.prompt))
-                cmd = self._getInput() 
+                cmd = self._getInput()
 
         if cmd == None:
-           self.conn.sendall("\r\nSession Timeout\r\n") 
+           self.conn.sendall("\r\nSession Timeout\r\n")
 
 
     def cmd(self, cmd):
@@ -240,7 +240,7 @@ def main():
     td = TelnetD()
 
     td.start()
-    
+
 
 
 if __name__ == "__main__":
